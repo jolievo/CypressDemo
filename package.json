@@ -1,0 +1,10 @@
+{
+  "name": "cypress-circleci-demo",
+  "scripts": {
+    "test": "cypress run"
+  },
+  "devDependencies": {
+    "cypress": "^13.0.0",
+    "wait-on": "^7.0.1"
+  }
+}
