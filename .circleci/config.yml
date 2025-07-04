@@ -1,40 +1,17 @@
-version: 2.1
-
-executors:
-  cypress-executor:
-    docker:
-      - image: cypress/browsers:node-18.12.0-chrome-107
-    working_directory: ~/project
-
 jobs:
   test:
-    executor: cypress-executor
+    docker:
+      - image: cypress/browsers:node-18.12.0-chrome-107
     steps:
       - checkout
-
-      - run:
-          name: Install deps
-          command: npm ci
-
-      - run:
-          name: Start docker-compose
-          command: docker-compose up -d --build
-
-      - run:
-          name: Wait for frontend
-          command: npx wait-on http://localhost:3000
-
-      - run:
-          name: Run Cypress
-          command: npx cypress run
-
-      - store_artifacts:
-          path: cypress/screenshots
-          destination: screenshots
-
+      - run: npm ci
+      - run: docker-compose up -d --build
+      - run: npx wait-on http://localhost:3000
+      - run: npx cypress run
       - store_artifacts:
           path: cypress/videos
-          destination: videos
+      - store_artifacts:
+          path: cypress/screenshots
 
 workflows:
   run-tests:
