@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: docker-compose up -d --build
+      - run: docker compose up -d --build
       - run: npx wait-on http://localhost:3000
       - run: npx cypress run
       - store_artifacts:
