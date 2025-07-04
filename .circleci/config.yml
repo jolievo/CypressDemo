@@ -2,8 +2,8 @@ version: 2.1
 
 jobs:
   test:
-    docker:
-      - image: cypress/included:13.0.0
+    machine:
+      image: ubuntu-2204:current
     steps:
       - checkout
       - run: npm install
