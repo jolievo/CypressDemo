@@ -2,28 +2,19 @@ version: 2.1
 
 jobs:
   test:
-    machine:
-      image: ubuntu-2204:current
+    docker:
+      - image: cypress/included:13.0.0
     steps:
       - checkout
       - run: npm install
       - run: docker compose up -d --build
       - run: npx wait-on http://localhost:3000
-      - run: npx cypress run      
-build:
-  working_directory: /tmp
-  steps:
-    - run:
-        name: Creating Dummy Artifacts
-        command: |
-          echo "my artifact file" > /tmp/art-1;
-          mkdir /tmp/artifacts;
-          echo "my artifact files in a dir" > /tmp/artifacts/art-2;
-    - store_artifacts:
-        path: /tmp/art-1
-        destination: artifact-file
-    - store_artifacts:
-        path: /tmp/artifacts
+      - run: npx cypress run
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
+
 workflows:
   run-tests:
     jobs:
